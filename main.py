@@ -31,7 +31,15 @@ class TokenList:
 		for token in self.tokens:
 			print(token)
 
-content = "Hello, I'm AA and this is my friend BB. Nice to meet you!"
-token_list = TokenList(content, stopwords=["'", ".", ",", "!"])
-print(token_list.to_dic_by_count())
-print(token_list.to_dic_by_index())
+def file_to_string(path, encoding='utf-8'):
+	with open(path, 'r', encoding=encoding) as fp:
+		ret = fp.read()
+	return ret
+
+content = file_to_string('test.txt')
+token_list = TokenList(content, stopwords=["'", ".", ",", "!", "\ufeff", "“", "”", '"', "[", "]", "=", "…", "(", ")", "{", "}", ":", ":", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
+dic = token_list.to_dic_by_count()
+sorted_list = sorted(dic, key=lambda x:dic[x])
+for s in sorted_list:
+	if dic[s] <= 1: continue
+	print(s, dic[s])
